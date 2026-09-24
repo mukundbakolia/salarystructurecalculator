@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Salary Structure &amp; CTC Calculator — India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16213A;
+    --ink-soft:#4B5A73;
+    --paper:#EEF1EC;
+    --panel:#FFFFFF;
+    --line:#D7DBD1;
+    --line-soft:#E6E9E1;
+    --brass:#9C7324;
+    --brass-soft:#EFE6D2;
+    --teal:#2C6B4C;
+    --teal-soft:#E4EFE8;
+    --rust:#A23A2E;
+    --rust-soft:#F6E6E3;
+    --serif:'Lora', Georgia, serif;
+    --sans:'IBM Plex Sans', -apple-system, Segoe UI, sans-serif;
+    --mono:'IBM Plex Mono', 'SFMono-Regular', Menlo, monospace;
+    box-sizing:border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top: env(safe-area-inset-top, 0px);}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.5;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#12161F;
+      --panel:#1B212D;
+      --ink:#E9EAE4;
+      --ink-soft:#AEB6C2;
+      --line:#333B48;
+      --line-soft:#2A303B;
+      --brass-soft:#3A3220;
+      --teal-soft:#1C2E24;
+      --rust-soft:#3A2320;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12161F;
+    --panel:#1B212D;
+    --ink:#E9EAE4;
+    --ink-soft:#AEB6C2;
+    --line:#333B48;
+    --line-soft:#2A303B;
+    --brass-soft:#3A3220;
+    --teal-soft:#1C2E24;
+    --rust-soft:#3A2320;
+  }
+
+  .wrap{max-width:880px;margin:0 auto;padding:40px 22px 100px;}
+
+  header.masthead{
+    border-bottom:2px solid var(--ink);
+    padding-bottom:20px;
+    margin-bottom:34px;
+  }
+  .masthead-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;}
+  .masthead-top .tag{font-family:var(--mono);font-size:12.5px;color:var(--brass);letter-spacing:.02em;}
+  h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:34px;
+    line-height:1.15;
+    margin:6px 0 8px;
+    color:var(--ink);
+  }
+  header p.lede{
+    color:var(--ink-soft);
+    font-size:15px;
+    max-width:62ch;
+    margin:0;
+  }
+
+  section.step{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:3px;
+    margin-bottom:22px;
+    overflow:hidden;
+  }
+  .step-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    padding:18px 24px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .step-num{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:22px;
+    color:var(--brass);
+    min-width:26px;
+  }
+  .step-head h2{
+    font-family:var(--serif);
+    font-size:20px;
+    font-weight:600;
+    margin:0;
+  }
+  .step-head .step-sub{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+  .step-body{padding:22px 24px 26px;}
+
+  .field-row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:14px;
+    align-items:center;
+    padding:11px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .field-row:last-child{border-bottom:none;}
+  .field-row label{font-size:14.5px;}
+  .field-row .hint{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px;}
+
+  .comp-row{
+    display:grid;
+    grid-template-columns:26px 1fr auto;
+    gap:12px;
+    align-items:start;
+    padding:12px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .comp-row:last-child{border-bottom:none;}
+  .comp-row input[type=checkbox]{
+    width:18px;height:18px;margin-top:2px;accent-color:var(--brass);cursor:pointer;
+  }
+  .comp-row .comp-label{font-size:14.5px;font-weight:500;}
+  .comp-row .comp-desc{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+  .comp-row .comp-input{display:flex;align-items:center;gap:6px;min-width:150px;justify-content:flex-end;}
+  .comp-row.disabled-look .comp-label, .comp-row.disabled-look .comp-desc{opacity:.45;}
+
+  input[type=number], input[type=text], select{
+    font-family:var(--mono);
+    font-size:14.5px;
+    padding:7px 10px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    background:var(--paper);
+    color:var(--ink);
+    width:130px;
+    text-align:right;
+  }
+  select{text-align:left;font-family:var(--sans);width:auto;min-width:160px;}
+  input[type=number]:focus, input[type=text]:focus, select:focus{
+    outline:2px solid var(--brass);outline-offset:1px;border-color:var(--brass);
+  }
+  .unit-suffix{font-family:var(--mono);font-size:13px;color:var(--ink-soft);}
+  .inline-inputs{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+
+  .radio-toggle{display:flex;border:1px solid var(--line);border-radius:2px;overflow:hidden;width:fit-content;}
+  .radio-toggle label{
+    font-size:13px;padding:7px 14px;cursor:pointer;background:var(--panel);color:var(--ink-soft);
+    border-right:1px solid var(--line);
+  }
+  .radio-toggle label:last-child{border-right:none;}
+  .radio-toggle input{display:none;}
+  .radio-toggle input:checked + label{background:var(--ink);color:var(--panel);}
+  .radio-toggle label{margin:0;}
+
+  .big-input-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px;}
+  .big-input-row input[type=number]{width:200px;font-size:19px;padding:10px 12px;text-align:right;}
+
+  .result-line{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:9px 0;border-bottom:1px dashed var(--line-soft);font-size:14.5px;
+  }
+  .result-line:last-child{border-bottom:none;}
+  .result-line .k{color:var(--ink-soft);}
+  .result-line .v{font-family:var(--mono);font-weight:500;}
+  .result-line.total{border-top:1.5px solid var(--ink);border-bottom:none;padding-top:12px;margin-top:6px;font-weight:600;}
+  .result-line.total .v{font-size:16.5px;}
+  .result-line.deduct .v{color:var(--rust);}
+  .result-line.add .v{color:var(--teal);}
+
+  .callout{
+    border-left:3px solid var(--brass);
+    background:var(--brass-soft);
+    padding:12px 16px;
+    font-size:13px;
+    color:var(--ink);
+    border-radius:0 2px 2px 0;
+    margin:14px 0;
+  }
+  .callout.warn{border-left-color:var(--rust);background:var(--rust-soft);}
+  .callout.ok{border-left-color:var(--teal);background:var(--teal-soft);}
+  .callout strong{font-weight:600;}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media (max-width:620px){.grid-2{grid-template-columns:1fr;} .report-header{grid-template-columns:1fr;}}
+
+  .panel-sub{
+    background:var(--paper);
+    border:1px solid var(--line-soft);
+    border-radius:2px;
+    padding:16px 18px;
+  }
+  .panel-sub h3{
+    font-family:var(--serif);font-size:15px;margin:0 0 10px;font-weight:600;
+  }
+
+  table.summary{width:100%;border-collapse:collapse;font-size:14px;}
+  table.summary th, table.summary td{
+    text-align:left;padding:9px 10px;border-bottom:1px solid var(--line-soft);
+  }
+  table.summary th{
+    font-family:var(--sans);font-weight:600;color:var(--ink-soft);font-size:12px;
+    text-transform:none;
+  }
+  table.summary td.num, table.summary th.num{text-align:right;font-family:var(--mono);}
+  table.summary tr.section-head td{
+    font-weight:600;padding-top:16px;border-bottom:1px solid var(--ink);color:var(--ink);
+  }
+  table.summary tr.total-row td{font-weight:700;border-top:1.5px solid var(--ink);border-bottom:none;}
+  table.summary tr.total-row td.num{font-size:15.5px;}
+
+  .final-net{
+    text-align:center;
+    padding:28px 20px;
+    background:var(--ink);
+    color:var(--paper);
+    border-radius:3px;
+    margin:20px 0;
+  }
+  .final-net .label{font-size:12.5px;letter-spacing:.02em;color:#B9C2CE;margin-bottom:6px;}
+  .final-net .amount{font-family:var(--serif);font-weight:700;font-size:38px;color:#F2C879;}
+  .final-net .sub{font-size:12.5px;color:#B9C2CE;margin-top:6px;}
+
+  .btn{
+    font-family:var(--sans);font-size:13.5px;font-weight:500;
+    padding:9px 16px;border:1px solid var(--ink);border-radius:2px;
+    background:var(--panel);color:var(--ink);cursor:pointer;
+  }
+  .btn:hover{background:var(--ink);color:var(--panel);}
+  .btn.primary{background:var(--brass);border-color:var(--brass);color:#fff;}
+  .btn.primary:hover{background:#7E5C19;border-color:#7E5C19;}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+
+  footer{
+    margin-top:36px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--ink-soft);
+  }
+  footer p{margin:4px 0;}
+
+  .report-header{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:4px 24px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:14px 18px;
+    margin-bottom:18px;
+    font-size:13px;
+  }
+  .rh-row{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px dotted var(--line-soft);}
+  .rh-k{color:var(--ink-soft);}
+  .rh-v{font-family:var(--mono);font-weight:500;text-align:right;}
+
+  @media print{
+    body{background:#fff;color:#000;}
+    .no-print{display:none !important;}
+    .wrap{max-width:100%;padding:12px 8px;}
+    header.masthead{border-bottom:1.5px solid #000;padding-bottom:10px;margin-bottom:18px;}
+    header.masthead .masthead-top{display:none;}
+    header.masthead p.lede{display:none;}
+    h1{font-size:22px;}
+    section.step{display:none;border:none;}
+    section#reportStep{display:block;break-inside:avoid;border:none;margin:0;}
+    #reportStep .step-head{border-bottom:1.5px solid #000;padding:0 0 10px;margin-bottom:14px;}
+    #reportStep .step-sub{display:none;}
+    .no-print-inputs{display:none !important;}
+    .report-header{display:grid;background:#fff;border:1px solid #000;}
+    .rh-v{color:#000;}
+    table.summary{border:1px solid #000;}
+    table.summary th, table.summary td{border-bottom:1px solid #999;padding:6px 8px;color:#000;}
+    table.summary tr.section-head td{border-bottom:1px solid #000;}
+    table.summary tr.total-row td{border-top:1.5px solid #000;}
+    @page{margin:14mm;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="masthead-top">
+      <div class="tag">CTC → Gross → Net · India Payroll</div>
+      <div class="tag" id="dateStamp"></div>
+    </div>
+    <h1>Salary Structure Calculator</h1>
+    <p class="lede">Build a CTC-to-net-pay structure the way it's actually assembled at Wellgrow — pick what sits inside CTC, land on a fixed Gross, split it into Basic / HRA / Special Allowance against Uttar Pradesh's notified minimum wage, apply statutory deductions, then prorate for the days actually paid.</p>
+  </header>
+
+  <!-- STEP 1 -->
+  <section class="step">
+    <div class="step-head">
+      <span class="step-num">1</span>
+      <div>
+        <h2>What sits inside the CTC</h2>
+        <div class="step-sub">Tick the components this offer includes. Untick anything not applicable — the calculation below adjusts automatically.</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <div class="comp-row">
+        <input type="checkbox" checked disabled>
+        <div>
+          <div class="comp-label">Basic + HRA + Special Allowance</div>
+          <div class="comp-desc">The fixed monthly Gross — always part of CTC, split out in Step 3.</div>
+        </div>
+        <div class="comp-input"><span class="unit-suffix">core</span></div>
+      </div>
+
+      <div class="comp-row" data-comp="empPF">
+        <input type="checkbox" id="c_empPF" checked>
+        <div>
+          <div class="comp-label">Employer's EPF contribution</div>
+          <div class="comp-desc">12% of PF wage, paid by the employer into the employee's provident fund.</div>
+          <label style="display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--ink-soft);margin-top:6px;">
+            <input type="checkbox" id="c_capPF" checked style="width:14px;height:14px;accent-color:var(--brass);"> Cap PF wage at ₹25,000/month
+          </label>
+        </div>
+        <div class="comp-input"><span class="unit-suffix">12%</span></div>
+      </div>
+
+      <div class="comp-row" data-comp="pfAdmin">
+        <input type="checkbox" id="c_pfAdmin">
+        <div>
+          <div class="comp-label">EPF admin / EDLI charges</div>
+          <div class="comp-desc">0.5% of PF wage — some employers cost this into CTC separately.</div>
+        </div>
+        <div class="comp-input"><span class="unit-suffix">0.5%</span></div>
+      </div>
+
+      <div class="comp-row" data-comp="empESIC">
+        <input type="checkbox" id="c_empESIC" checked>
+        <div>
+          <div class="comp-label">Employer's ESIC contribution</div>
+          <div class="comp-desc">3.25% of Gross — applies automatically only while monthly Gross is ≤ ₹21,000.</div>
+        </div>
+        <div class="comp-input"><span class="unit-suffix">3.25%</span></div>
+      </div>
+
+      <div class="comp-row" data-comp="gratuity">
+        <input type="checkbox" id="c_gratuity" checked>
+        <div>
+          <div class="comp-label">Gratuity provision</div>
+          <div class="comp-desc">4.81% of Basic — the standard actuarial provisioning rate (Basic × 15/26 ÷ 12).</div>
+        </div>
+        <div class="comp-input"><span class="unit-suffix">4.81%</span></div>
+      </div>
+
+      <div class="comp-row" data-comp="insurance">
+        <input type="checkbox" id="c_insurance">
+        <div>
+          <div class="comp-label">Group mediclaim / GPA insurance</div>
+          <div class="comp-desc">Employer-paid premium, costed into CTC.</div>
+        </div>
+        <div class="comp-input">
+          <input type="number" id="v_insurance" value="0" min="0" step="500" disabled> <span class="unit-suffix">₹/yr</span>
+        </div>
+      </div>
+
+      <div class="comp-row" data-comp="nps">
+        <input type="checkbox" id="c_nps">
+        <div>
+          <div class="comp-label">Employer NPS contribution</div>
+          <div class="comp-desc">Voluntary employer contribution to the National Pension System.</div>
+        </div>
+        <div class="comp-input">
+          <input type="number" id="v_nps" value="10" min="0" max="100" step="0.5" disabled> <span class="unit-suffix">% of Basic</span>
+        </div>
+      </div>
+
+      <div class="comp-row" data-comp="statBonus">
+        <input type="checkbox" id="c_statBonus">
+        <div>
+          <div class="comp-label">Statutory bonus</div>
+          <div class="comp-desc">Payment of Bonus Act — 8.33% of Basic, capped at a ₹7,000 bonus-wage, paid annually (not monthly).</div>
+        </div>
+        <div class="comp-input"><span class="unit-suffix">8.33%</span></div>
+      </div>
+
+      <div class="comp-row" data-comp="varPay">
+        <input type="checkbox" id="c_varPay">
+        <div>
+          <div class="comp-label">Variable / performance pay</div>
+          <div class="comp-desc">At-risk annual payout, not part of the fixed monthly Gross.</div>
+        </div>
+        <div class="comp-input">
+          <input type="number" id="v_varPay" value="10" min="0" max="100" step="1" disabled> <span class="unit-suffix">% of Basic</span>
+        </div>
+      </div>
+
+      <div class="comp-row" data-comp="lta">
+        <input type="checkbox" id="c_lta">
+        <div>
+          <div class="comp-label">LTA (Leave Travel Allowance)</div>
+          <div class="comp-desc">Annual reimbursement component, costed into CTC but paid on claim, not monthly.</div>
+        </div>
+        <div class="comp-input">
+          <input type="number" id="v_lta" value="0" min="0" step="500" disabled> <span class="unit-suffix">₹/yr</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="step">
+    <div class="step-head">
+      <span class="step-num">2</span>
+      <div>
+        <h2>Enter CTC, finalise the Gross</h2>
+        <div class="step-sub">Everything ticked above that isn't the fixed monthly Gross is netted off the CTC first.</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <div class="big-input-row">
+        <input type="number" id="ctcValue" value="600000" min="0" step="1000">
+        <div class="radio-toggle" id="ctcMode">
+          <input type="radio" name="ctcMode" id="mode_annual" value="annual" checked><label for="mode_annual">per year</label>
+          <input type="radio" name="ctcMode" id="mode_monthly" value="monthly"><label for="mode_monthly">per month</label>
+        </div>
+      </div>
+
+      <div id="ctcBreakup">
+        <div class="result-line"><span class="k">CTC (annual)</span><span class="v" id="out_ctcAnnual">—</span></div>
+        <div class="result-line deduct" data-line="empPF"><span class="k">Less: Employer's EPF</span><span class="v" id="out_empPF">—</span></div>
+        <div class="result-line deduct" data-line="pfAdmin"><span class="k">Less: EPF admin/EDLI</span><span class="v" id="out_pfAdmin">—</span></div>
+        <div class="result-line deduct" data-line="empESIC"><span class="k">Less: Employer's ESIC</span><span class="v" id="out_empESIC">—</span></div>
+        <div class="result-line deduct" data-line="gratuity"><span class="k">Less: Gratuity provision</span><span class="v" id="out_gratuity">—</span></div>
+        <div class="result-line deduct" data-line="insurance"><span class="k">Less: Insurance premium</span><span class="v" id="out_insurance">—</span></div>
+        <div class="result-line deduct" data-line="nps"><span class="k">Less: Employer NPS</span><span class="v" id="out_nps">—</span></div>
+        <div class="result-line deduct" data-line="statBonus"><span class="k">Less: Statutory bonus</span><span class="v" id="out_statBonus">—</span></div>
+        <div class="result-line deduct" data-line="varPay"><span class="k">Less: Variable pay</span><span class="v" id="out_varPay">—</span></div>
+        <div class="result-line deduct" data-line="lta"><span class="k">Less: LTA</span><span class="v" id="out_lta">—</span></div>
+        <div class="result-line total"><span class="k">Fixed Gross (annual)</span><span class="v" id="out_grossAnnual">—</span></div>
+        <div class="result-line"><span class="k">Fixed Gross (monthly)</span><span class="v" id="out_grossMonthly">—</span></div>
+      </div>
+
+      <div class="callout" id="esicNote" style="display:none;">
+        Monthly Gross is above ₹21,000, so ESIC (employer + employee) does not apply and is excluded automatically.
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="step">
+    <div class="step-head">
+      <span class="step-num">3</span>
+      <div>
+        <h2>Split the Gross — Basic, HRA, Special Allowance</h2>
+        <div class="step-sub">Checked against the Uttar Pradesh notified minimum wage for the employee's skill category.</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <div class="grid-2">
+        <div class="field-row" style="grid-template-columns:1fr;">
+          <label for="basicPct">Basic — % of Gross
+            <span class="hint">Common practice: 40–50% of Gross.</span>
+          </label>
+        </div>
+        <div class="field-row" style="grid-template-columns:1fr;">
+          <label for="hraPct">HRA — % of Basic
+            <span class="hint">50% metro · 40% non-metro. UP is non-metro.</span>
+          </label>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:-10px;margin-bottom:16px;">
+        <div><input type="number" id="basicPct" value="45" min="20" max="80" step="1" style="width:100px;"> <span class="unit-suffix">%</span></div>
+        <div>
+          <select id="hraPct">
+            <option value="40" selected>40% — Non-metro (Uttar Pradesh)</option>
+            <option value="50">50% — Metro (Delhi, Mumbai, Kolkata, Chennai)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <label for="skillCat">Employee category (UP Minimum Wages Act)
+          <span class="hint">Sets the wage floor checked against Gross below.</span>
+        </label>
+        <select id="skillCat">
+          <option value="13690">Unskilled — ₹13,690/month (₹526.54/day)</option>
+          <option value="15059">Semi-skilled — ₹15,059/month (₹579.19/day)</option>
+          <option value="16868" selected>Skilled — ₹16,868/month (₹648.77/day)</option>
+        </select>
+      </div>
+
+      <div class="callout">
+        Minimum wages define the <strong>Basic</strong> an employee must be paid — so Basic below is always the greater of (Basic % × Gross) and this notified floor. Rates revise roughly every six months; re-check the current UP Labour Department notification before finalising, and use the correct schedule of employment for Wellgrow's category.
+      </div>
+
+      <div id="minWageWarning" class="callout warn" style="display:none;"></div>
+      <div id="minWageOk" class="callout ok" style="display:none;"></div>
+
+      <div style="margin-top:16px;">
+        <div class="result-line"><span class="k">Basic (monthly)</span><span class="v" id="out_basic">—</span></div>
+        <div class="result-line"><span class="k">HRA (monthly)</span><span class="v" id="out_hra">—</span></div>
+        <div class="result-line"><span class="k">Special Allowance (monthly, balancing figure)</span><span class="v" id="out_sa">—</span></div>
+        <div class="result-line total"><span class="k">Fixed Gross (monthly)</span><span class="v" id="out_grossMonthly2">—</span></div>
+      </div>
+      <div id="saWarning" class="callout warn" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- STEP 4 -->
+  <section class="step">
+    <div class="step-head">
+      <span class="step-num">4</span>
+      <div>
+        <h2>Statutory deductions — employee's side</h2>
+        <div class="step-sub">What actually comes off the employee's Gross each month.</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <div class="comp-row">
+        <input type="checkbox" id="c_dEPF" checked>
+        <div>
+          <div class="comp-label">Employee's EPF</div>
+          <div class="comp-desc">12% of PF wage (same cap setting as Step 1).</div>
+        </div>
+        <div class="comp-input"><span class="unit-suffix">12%</span></div>
+      </div>
+
+      <div class="comp-row">
+        <input type="checkbox" id="c_dESIC" checked>
+        <div>
+          <div class="comp-label">Employee's ESIC</div>
+          <div class="comp-desc">0.75% of Gross — only while monthly Gross is ≤ ₹21,000.</div>
+        </div>
+        <div class="comp-input"><span class="unit-suffix">0.75%</span></div>
+      </div>
+
+      <div class="comp-row">
+        <input type="checkbox" id="c_dPT">
+        <div>
+          <div class="comp-label">Professional Tax</div>
+          <div class="comp-desc"><strong>Not applicable in Uttar Pradesh</strong> — UP does not levy Professional Tax. Enable and enter an amount only if this employee is on a state payroll that does (e.g. cross-posted).</div>
+        </div>
+        <div class="comp-input">
+          <input type="number" id="v_PT" value="0" min="0" step="50" disabled> <span class="unit-suffix">₹/mo</span>
+        </div>
+      </div>
+
+      <div class="comp-row">
+        <input type="checkbox" id="c_dLWF">
+        <div>
+          <div class="comp-label">Labour Welfare Fund</div>
+          <div class="comp-desc"><strong>Not applicable in Uttar Pradesh</strong> — UP has no LWF Act. Leave off unless the establishment is registered in a state that does.</div>
+        </div>
+        <div class="comp-input">
+          <input type="number" id="v_LWF" value="0" min="0" step="5" disabled> <span class="unit-suffix">₹/mo</span>
+        </div>
+      </div>
+
+      <div class="comp-row">
+        <input type="checkbox" id="c_dTDS">
+        <div>
+          <div class="comp-label">Income tax (TDS)</div>
+          <div class="comp-desc">Depends on the employee's declared regime and investment declarations — enter the monthly TDS figure from payroll/Form 12BB rather than an estimate.</div>
+        </div>
+        <div class="comp-input">
+          <input type="number" id="v_TDS" value="0" min="0" step="100" disabled> <span class="unit-suffix">₹/mo</span>
+        </div>
+      </div>
+
+      <div class="comp-row">
+        <input type="checkbox" id="c_dOther">
+        <div>
+          <div class="comp-label">Other deductions</div>
+          <div class="comp-desc">Loan EMI, salary advance recovery, uniform/asset recovery, etc.</div>
+        </div>
+        <div class="comp-input">
+          <input type="number" id="v_other" value="0" min="0" step="100" disabled> <span class="unit-suffix">₹/mo</span>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div class="result-line deduct"><span class="k">Employee's EPF</span><span class="v" id="out_dEPF">—</span></div>
+        <div class="result-line deduct"><span class="k">Employee's ESIC</span><span class="v" id="out_dESIC">—</span></div>
+        <div class="result-line deduct"><span class="k">Professional Tax</span><span class="v" id="out_dPT">—</span></div>
+        <div class="result-line deduct"><span class="k">Labour Welfare Fund</span><span class="v" id="out_dLWF">—</span></div>
+        <div class="result-line deduct"><span class="k">Income tax (TDS)</span><span class="v" id="out_dTDS">—</span></div>
+        <div class="result-line deduct"><span class="k">Other deductions</span><span class="v" id="out_dOther">—</span></div>
+        <div class="result-line total"><span class="k">Net pay — full month</span><span class="v" id="out_netFull">—</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 5 -->
+  <section class="step">
+    <div class="step-head">
+      <span class="step-num">5</span>
+      <div>
+        <h2>Monthly days &amp; prorated pay</h2>
+        <div class="step-sub">For a mid-month joiner, exit, or loss-of-pay days.</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <div class="field-row">
+        <label for="payMonthSel">Salary month</label>
+        <div class="inline-inputs">
+          <select id="payMonthSel"></select>
+          <select id="payYearSel"></select>
+        </div>
+      </div>
+      <div class="field-row">
+        <label>Days-in-month basis
+          <span class="hint">Calendar days is standard for most Indian payrolls; some use a fixed 30.</span>
+        </label>
+        <div class="radio-toggle" id="dayBasis">
+          <input type="radio" name="dayBasis" id="basis_cal" value="calendar" checked><label for="basis_cal">calendar days</label>
+          <input type="radio" name="dayBasis" id="basis_30" value="fixed30"><label for="basis_30">fixed 30</label>
+        </div>
+      </div>
+      <div class="field-row">
+        <label for="paidDays">Paid days this month
+          <span class="hint">Total days minus LOP / unpaid leave.</span>
+        </label>
+        <input type="number" id="paidDays" value="30" min="0" step="0.5" style="width:100px;">
+      </div>
+
+      <div class="result-line"><span class="k">Total days in month</span><span class="v" id="out_totalDays">—</span></div>
+      <div class="result-line"><span class="k">Per-day rate (Gross)</span><span class="v" id="out_perDay">—</span></div>
+      <div class="result-line"><span class="k">LOP days</span><span class="v" id="out_lopDays">—</span></div>
+
+      <div class="grid-2" style="margin-top:16px;">
+        <div class="panel-sub">
+          <h3>Prorated Gross components</h3>
+          <div class="result-line"><span class="k">Basic</span><span class="v" id="out_pBasic">—</span></div>
+          <div class="result-line"><span class="k">HRA</span><span class="v" id="out_pHRA">—</span></div>
+          <div class="result-line"><span class="k">Special Allowance</span><span class="v" id="out_pSA">—</span></div>
+          <div class="result-line total"><span class="k">Gross earned</span><span class="v" id="out_pGross">—</span></div>
+        </div>
+        <div class="panel-sub">
+          <h3>Prorated deductions</h3>
+          <div class="result-line deduct"><span class="k">EPF</span><span class="v" id="out_pEPF">—</span></div>
+          <div class="result-line deduct"><span class="k">ESIC</span><span class="v" id="out_pESIC">—</span></div>
+          <div class="result-line deduct"><span class="k">PT + LWF</span><span class="v" id="out_pPTLWF">—</span></div>
+          <div class="result-line deduct"><span class="k">TDS + other</span><span class="v" id="out_pTDSOther">—</span></div>
+          <div class="result-line total"><span class="k">Total deductions</span><span class="v" id="out_pDeduct">—</span></div>
+        </div>
+      </div>
+
+      <div class="final-net">
+        <div class="label">NET PAY — <span id="out_finalMonthLabel">this month</span></div>
+        <div class="amount" id="out_finalNet">—</div>
+        <div class="sub" id="out_finalSub">—</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STEP 6: SUMMARY -->
+  <section class="step" id="reportStep">
+    <div class="step-head">
+      <span class="step-num">6</span>
+      <div>
+        <h2>Full salary structure</h2>
+        <div class="step-sub">Ready to drop into an offer letter or CTC annexure. Fill in the details below — only this report prints.</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <div class="grid-2 no-print-inputs" style="margin-bottom:18px;">
+        <div class="field-row" style="grid-template-columns:1fr;"><label for="rep_empName">Employee name<input type="text" id="rep_empName" placeholder="—" style="width:100%;text-align:left;margin-top:4px;"></label></div>
+        <div class="field-row" style="grid-template-columns:1fr;"><label for="rep_designation">Designation<input type="text" id="rep_designation" placeholder="—" style="width:100%;text-align:left;margin-top:4px;"></label></div>
+        <div class="field-row" style="grid-template-columns:1fr;"><label for="rep_code">Employee code<input type="text" id="rep_code" placeholder="—" style="width:100%;text-align:left;margin-top:4px;"></label></div>
+        <div class="field-row" style="grid-template-columns:1fr;"><label for="rep_dept">Department<input type="text" id="rep_dept" placeholder="—" style="width:100%;text-align:left;margin-top:4px;"></label></div>
+      </div>
+
+      <div id="reportHeader" class="report-header">
+        <div class="rh-row"><span class="rh-k">Employee</span><span class="rh-v" id="rh_name">—</span></div>
+        <div class="rh-row"><span class="rh-k">Designation / Dept.</span><span class="rh-v" id="rh_desig">—</span></div>
+        <div class="rh-row"><span class="rh-k">Employee code</span><span class="rh-v" id="rh_code">—</span></div>
+        <div class="rh-row"><span class="rh-k">Category (UP min. wage)</span><span class="rh-v" id="rh_cat">—</span></div>
+        <div class="rh-row"><span class="rh-k">Salary month</span><span class="rh-v" id="rh_month">—</span></div>
+        <div class="rh-row"><span class="rh-k">Attendance</span><span class="rh-v" id="rh_attendance">—</span></div>
+        <div class="rh-row"><span class="rh-k">Prorated net pay</span><span class="rh-v" id="rh_net">—</span></div>
+        <div class="rh-row"><span class="rh-k">Generated on</span><span class="rh-v" id="rh_date">—</span></div>
+      </div>
+
+      <table class="summary" id="summaryTable">
+        <thead>
+          <tr><th>Component</th><th class="num">Monthly (₹)</th><th class="num">Annual (₹)</th></tr>
+        </thead>
+        <tbody id="summaryBody"></tbody>
+      </table>
+      <div class="btn-row no-print">
+        <button class="btn primary" id="printBtn" type="button">Print / save as PDF</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Statutory rates used: EPF 12% (employer + employee, PF wage capped at ₹25,000 by default), ESIC 3.25% employer / 0.75% employee (wage ceiling ₹21,000/month), gratuity 4.81% of Basic, statutory bonus 8.33% (bonus-wage capped ₹7,000). Basic is always the greater of (Basic % × Gross) or the UP minimum wage for the selected category. Professional Tax and Labour Welfare Fund are not levied in Uttar Pradesh and are off by default.</p>
+    <p>This is a planning tool, not a compliance or tax filing system — verify current thresholds with the latest EPFO/ESIC circulars and the UP Labour Department's notification before issuing an offer.</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const inr = n => {
+    if(!isFinite(n)) n = 0;
+    const neg = n < 0; n = Math.abs(n);
+    const s = n.toLocaleString('en-IN', {maximumFractionDigits:0});
+    return (neg?'-':'') + '₹' + s;
+  };
+
+  // ---- wire up conditional inputs (checkbox enables its own number input) ----
+  document.querySelectorAll('.comp-row[data-comp]').forEach(row=>{
+    const cb = row.querySelector('input[type=checkbox]');
+    const num = row.querySelector('input[type=number]');
+    function sync(){
+      if(num) num.disabled = !cb.checked;
+      row.classList.toggle('disabled-look', !cb.checked);
+    }
+    cb.addEventListener('change', ()=>{ sync(); recalc(); });
+    if(num) num.addEventListener('input', recalc);
+    sync();
+  });
+  ['c_dPT','c_dLWF','c_dTDS','c_dOther'].forEach(id=>{
+    const cb = $(id);
+    const num = cb.closest('.comp-row').querySelector('input[type=number]');
+    function sync(){ num.disabled = !cb.checked; }
+    cb.addEventListener('change', ()=>{ sync(); recalc(); });
+    num.addEventListener('input', recalc);
+    sync();
+  });
+
+  document.querySelectorAll('input, select').forEach(el=>{
+    el.addEventListener('input', recalc);
+    el.addEventListener('change', recalc);
+  });
+
+  function daysInMonth(ym){
+    const m = /^(\d{4})-(\d{2})$/.exec(ym);
+    if(!m) return 30;
+    const y = +m[1], mo = +m[2];
+    return new Date(y, mo, 0).getDate();
+  }
+  function monthLabel(ym){
+    const m = /^(\d{4})-(\d{2})$/.exec(ym);
+    if(!m) return ym;
+    const d = new Date(+m[1], +m[2]-1, 1);
+    return d.toLocaleDateString('en-IN', {month:'long', year:'numeric'});
+  }
+
+  function recalc(){
+    // ---------- STEP 2: CTC -> Gross (fixed-point iteration) ----------
+    let ctcInput = parseFloat($('ctcValue').value) || 0;
+    const mode = document.querySelector('input[name=ctcMode]:checked').value;
+    const ctcAnnual = mode === 'annual' ? ctcInput : ctcInput * 12;
+
+    const capPF = $('c_capPF').checked;
+    const basicPct = (parseFloat($('basicPct').value) || 0) / 100;
+    const hraPct = (parseFloat($('hraPct').value) || 0) / 100;
+
+    const on = {
+      empPF: $('c_empPF').checked,
+      pfAdmin: $('c_pfAdmin').checked,
+      empESIC: $('c_empESIC').checked,
+      gratuity: $('c_gratuity').checked,
+      insurance: $('c_insurance').checked,
+      nps: $('c_nps').checked,
+      statBonus: $('c_statBonus').checked,
+      varPay: $('c_varPay').checked,
+      lta: $('c_lta').checked
+    };
+    const val = {
+      insurance: parseFloat($('v_insurance').value) || 0,
+      nps: (parseFloat($('v_nps').value) || 0) / 100,
+      varPay: (parseFloat($('v_varPay').value) || 0) / 100,
+      lta: parseFloat($('v_lta').value) || 0
+    };
+
+    const minWage = parseFloat($('skillCat').value) || 0;
+    const PF_CEILING = 25000;
+
+    function costsForBasic(basicM, grossGuess){
+      const pfWage = capPF ? Math.min(basicM, PF_CEILING) : basicM;
+      const c = {};
+      c.empPF = on.empPF ? pfWage*0.12*12 : 0;
+      c.pfAdmin = on.pfAdmin ? pfWage*0.005*12 : 0;
+      const esicOk = grossGuess <= 21000 && grossGuess > 0;
+      c.empESIC = (on.empESIC && esicOk) ? grossGuess*0.0325*12 : 0;
+      c.gratuity = on.gratuity ? basicM*12*0.0481 : 0;
+      c.insurance = on.insurance ? val.insurance : 0;
+      c.nps = on.nps ? basicM*12*val.nps : 0;
+      const bonusWage = Math.min(basicM, 7000);
+      c.statBonus = on.statBonus ? bonusWage*12*0.0833 : 0;
+      c.varPay = on.varPay ? basicM*12*val.varPay : 0;
+      c.lta = on.lta ? val.lta : 0;
+      return {c, esicOk};
+    }
+    function solveWithBasic(basicMFixed){
+      let gM = ctcAnnual/12, c, esicOk;
+      for(let i=0;i<25;i++){
+        const r = costsForBasic(basicMFixed, gM);
+        c = r.c; esicOk = r.esicOk;
+        const total = Object.values(c).reduce((a,b)=>a+b,0);
+        gM = Math.max(0, ctcAnnual - total)/12;
+      }
+      return {grossMonthly:gM, costs:c, esicApplies:esicOk};
+    }
+
+    // Phase 1 — natural convergence: Basic floats as basicPct × Gross, no floor
+    let basicMonthlyGuess = ctcAnnual/12*basicPct;
+    let grossMonthly = ctcAnnual/12, costs, esicApplies;
+    for(let i=0;i<25;i++){
+      const r = costsForBasic(basicMonthlyGuess, grossMonthly);
+      costs = r.c; esicApplies = r.esicOk;
+      const total = Object.values(costs).reduce((a,b)=>a+b,0);
+      grossMonthly = Math.max(0, ctcAnnual - total)/12;
+      basicMonthlyGuess = grossMonthly*basicPct;
+    }
+    const basicFromPct = basicMonthlyGuess;
+
+    // Phase 2 — only if the natural Basic misses the UP floor, re-solve with Basic PINNED at the floor
+    let basicMonthly = basicFromPct;
+    let infeasible = false;
+    const floorApplied = minWage > basicFromPct && (ctcAnnual > 0);
+    if(floorApplied){
+      const solved = solveWithBasic(minWage);
+      grossMonthly = solved.grossMonthly;
+      costs = solved.costs;
+      esicApplies = solved.esicApplies;
+      basicMonthly = minWage;
+      if(grossMonthly < minWage*(1+hraPct) - 0.5){
+        infeasible = true;
+      }
+    }
+    const grossAnnual = grossMonthly*12;
+    let hraMonthly = basicMonthly * hraPct;
+    let saMonthly = grossMonthly - basicMonthly - hraMonthly;
+
+    const minWarn = $('minWageWarning'), minOk = $('minWageOk');
+    if(infeasible){
+      minWarn.style.display='block';
+      const totalCostsAtFloor = Object.values(costs).reduce((a,b)=>a+b,0);
+      minWarn.innerHTML = '<strong>This CTC can\'t fund the UP minimum wage.</strong> At the ' + inr(minWage) + '/month floor for this category, the ticked employer-cost components alone come to ' + inr(totalCostsAtFloor) + '/year against a CTC of ' + inr(ctcAnnual) + '/year — there isn\'t enough left for Basic + HRA, let alone Special Allowance. Raise the CTC, or untick some employer-cost components in Step 1.';
+      minOk.style.display='none';
+    } else if(floorApplied){
+      minWarn.style.display='block';
+      minWarn.innerHTML = '<strong>Minimum-wage floor applied.</strong> ' + (basicPct*100).toFixed(0) + '% of Gross would give a Basic of ' + inr(basicFromPct) + ', below the UP minimum wage of ' + inr(minWage) + ' for this category — Basic has been raised to ' + inr(minWage) + ' and Special Allowance absorbs the difference.';
+      minOk.style.display='none';
+    } else if(grossMonthly > 0) {
+      minOk.style.display='block';
+      minOk.innerHTML = 'Basic of ' + inr(basicMonthly) + ' already clears the UP minimum wage of ' + inr(minWage) + ' for this category — no floor needed.';
+      minWarn.style.display='none';
+    } else {
+      minWarn.style.display='none'; minOk.style.display='none';
+    }
+
+    const saWarn = $('saWarning');
+    if(saMonthly < 0 && !infeasible){
+      saWarn.style.display='block';
+      saWarn.innerHTML = 'Special Allowance has gone negative — Basic % + HRA % together exceed 100% of Gross. Reduce Basic % or HRA %.';
+    } else {
+      saWarn.style.display='none';
+    }
+
+    // ---------- render Step 1/2 lines ----------
+    $('out_ctcAnnual').textContent = inr(ctcAnnual);
+    $('out_empPF').textContent = '- ' + inr(costs.empPF);
+    $('out_pfAdmin').textContent = '- ' + inr(costs.pfAdmin);
+    $('out_empESIC').textContent = '- ' + inr(costs.empESIC);
+    $('out_gratuity').textContent = '- ' + inr(costs.gratuity);
+    $('out_insurance').textContent = '- ' + inr(costs.insurance);
+    $('out_nps').textContent = '- ' + inr(costs.nps);
+    $('out_statBonus').textContent = '- ' + inr(costs.statBonus);
+    $('out_varPay').textContent = '- ' + inr(costs.varPay);
+    $('out_lta').textContent = '- ' + inr(costs.lta);
+    $('out_grossAnnual').textContent = inr(grossAnnual);
+    $('out_grossMonthly').textContent = inr(grossMonthly) + ' /mo';
+    $('out_grossMonthly2').textContent = inr(grossMonthly);
+
+    document.querySelectorAll('#ctcBreakup .result-line[data-line]').forEach(line=>{
+      const key = line.getAttribute('data-line');
+      line.style.display = on[key] ? 'flex' : 'none';
+    });
+    $('esicNote').style.display = (on.empESIC && !esicApplies && grossMonthly>0) ? 'block' : 'none';
+
+    $('out_basic').textContent = inr(basicMonthly);
+    $('out_hra').textContent = inr(hraMonthly);
+    $('out_sa').textContent = inr(saMonthly);
+
+    // ---------- STEP 4: employee deductions on full month ----------
+    const pfWageMonthlyFinal = capPF ? Math.min(basicMonthly, PF_CEILING) : basicMonthly;
+    const dEPF = $('c_dEPF').checked ? pfWageMonthlyFinal*0.12 : 0;
+    const dESICapplies = grossMonthly <= 21000 && grossMonthly > 0;
+    const dESIC = ($('c_dESIC').checked && dESICapplies) ? grossMonthly*0.0075 : 0;
+    const dPT = $('c_dPT').checked ? (parseFloat($('v_PT').value)||0) : 0;
+    const dLWF = $('c_dLWF').checked ? (parseFloat($('v_LWF').value)||0) : 0;
+    const dTDS = $('c_dTDS').checked ? (parseFloat($('v_TDS').value)||0) : 0;
+    const dOther = $('c_dOther').checked ? (parseFloat($('v_other').value)||0) : 0;
+    const totalDeductFull = dEPF+dESIC+dPT+dLWF+dTDS+dOther;
+    const netFull = grossMonthly - totalDeductFull;
+
+    $('out_dEPF').textContent = '- ' + inr(dEPF);
+    $('out_dESIC').textContent = '- ' + inr(dESIC);
+    $('out_dPT').textContent = '- ' + inr(dPT);
+    $('out_dLWF').textContent = '- ' + inr(dLWF);
+    $('out_dTDS').textContent = '- ' + inr(dTDS);
+    $('out_dOther').textContent = '- ' + inr(dOther);
+    $('out_netFull').textContent = inr(netFull);
+
+    // ---------- STEP 5: proration ----------
+    const ym = $('payYearSel').value + '-' + $('payMonthSel').value;
+    const basis = document.querySelector('input[name=dayBasis]:checked').value;
+    const totalDays = basis === 'fixed30' ? 30 : daysInMonth(ym);
+    let paidDays = parseFloat($('paidDays').value);
+    if(isNaN(paidDays)) paidDays = totalDays;
+    paidDays = Math.min(paidDays, totalDays);
+    const lopDays = Math.max(0, totalDays - paidDays);
+    const frac = totalDays > 0 ? paidDays/totalDays : 0;
+
+    const perDay = grossMonthly / totalDays;
+    const pBasic = basicMonthly * frac;
+    const pHRA = hraMonthly * frac;
+    const pSA = saMonthly * frac;
+    const pGross = pBasic + pHRA + pSA;
+
+    const pPFWage = capPF ? Math.min(pBasic, PF_CEILING*frac) : pBasic;
+    const pEPF = $('c_dEPF').checked ? pPFWage*0.12 : 0;
+    const pESICapplies = grossMonthly <= 21000 && grossMonthly > 0;
+    const pESIC = ($('c_dESIC').checked && pESICapplies) ? pGross*0.0075 : 0;
+    const pPTLWF = (dPT+dLWF); // flat statutory amounts, not prorated
+    const pTDSOther = (dTDS+dOther)*frac;
+    const pDeduct = pEPF+pESIC+pPTLWF+pTDSOther;
+    const pNet = pGross - pDeduct;
+
+    $('out_totalDays').textContent = totalDays + ' days';
+    $('out_perDay').textContent = inr(perDay) + ' /day';
+    $('out_lopDays').textContent = lopDays.toFixed(lopDays%1===0?0:1) + ' days';
+    $('out_pBasic').textContent = inr(pBasic);
+    $('out_pHRA').textContent = inr(pHRA);
+    $('out_pSA').textContent = inr(pSA);
+    $('out_pGross').textContent = inr(pGross);
+    $('out_pEPF').textContent = '- ' + inr(pEPF);
+    $('out_pESIC').textContent = '- ' + inr(pESIC);
+    $('out_pPTLWF').textContent = '- ' + inr(pPTLWF);
+    $('out_pTDSOther').textContent = '- ' + inr(pTDSOther);
+    $('out_pDeduct').textContent = '- ' + inr(pDeduct);
+
+    $('out_finalMonthLabel').textContent = monthLabel(ym);
+    $('out_finalNet').textContent = inr(pNet);
+    $('out_finalSub').textContent = paidDays + ' of ' + totalDays + ' days paid' + (lopDays>0 ? ' · ' + lopDays + ' LOP day(s)' : '');
+
+    // ---------- STEP 6: summary table ----------
+    const rows = [];
+    rows.push(['section','Earnings — monthly Gross','','']);
+    rows.push(['row','Basic', basicMonthly, basicMonthly*12]);
+    rows.push(['row','HRA', hraMonthly, hraMonthly*12]);
+    rows.push(['row','Special Allowance', saMonthly, saMonthly*12]);
+    rows.push(['total','Gross (A)', grossMonthly, grossAnnual]);
+
+    rows.push(['section','Employee deductions','','']);
+    if($('c_dEPF').checked) rows.push(['row','Employee EPF', -dEPF, -dEPF*12]);
+    if($('c_dESIC').checked && dESICapplies) rows.push(['row','Employee ESIC', -dESIC, -dESIC*12]);
+    if($('c_dPT').checked) rows.push(['row','Professional Tax', -dPT, -dPT*12]);
+    if($('c_dLWF').checked) rows.push(['row','Labour Welfare Fund', -dLWF, -dLWF*12]);
+    if($('c_dTDS').checked) rows.push(['row','Income tax (TDS)', -dTDS, -dTDS*12]);
+    if($('c_dOther').checked) rows.push(['row','Other deductions', -dOther, -dOther*12]);
+    rows.push(['total','Total deductions (B)', -totalDeductFull, -totalDeductFull*12]);
+    rows.push(['total','Net pay (A − B)', netFull, netFull*12]);
+
+    rows.push(['section','Employer cost — added to CTC','','']);
+    if(on.empPF) rows.push(['row','Employer EPF', costs.empPF/12, costs.empPF]);
+    if(on.pfAdmin) rows.push(['row','EPF admin/EDLI', costs.pfAdmin/12, costs.pfAdmin]);
+    if(on.empESIC && esicApplies) rows.push(['row','Employer ESIC', costs.empESIC/12, costs.empESIC]);
+    if(on.gratuity) rows.push(['row','Gratuity provision', costs.gratuity/12, costs.gratuity]);
+    if(on.insurance) rows.push(['row','Insurance premium', costs.insurance/12, costs.insurance]);
+    if(on.nps) rows.push(['row','Employer NPS', costs.nps/12, costs.nps]);
+    if(on.statBonus) rows.push(['row','Statutory bonus', costs.statBonus/12, costs.statBonus]);
+    if(on.varPay) rows.push(['row','Variable pay (at target)', costs.varPay/12, costs.varPay]);
+    if(on.lta) rows.push(['row','LTA', costs.lta/12, costs.lta]);
+    rows.push(['total','Cost to Company (CTC)', ctcAnnual/12, ctcAnnual]);
+
+    const catLabel = $('skillCat').options[$('skillCat').selectedIndex].textContent;
+    $('rh_name').textContent = $('rep_empName').value.trim() || '—';
+    $('rh_desig').textContent = [$('rep_designation').value.trim(), $('rep_dept').value.trim()].filter(Boolean).join(' — ') || '—';
+    $('rh_code').textContent = $('rep_code').value.trim() || '—';
+    $('rh_cat').textContent = catLabel;
+    $('rh_month').textContent = monthLabel(ym);
+    $('rh_attendance').textContent = paidDays + ' of ' + totalDays + ' days paid' + (lopDays>0 ? ' (' + lopDays + ' LOP)' : '');
+    $('rh_net').textContent = inr(pNet);
+    $('rh_date').textContent = new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'});
+
+    const tbody = $('summaryBody');
+    tbody.innerHTML = '';
+    rows.forEach(r=>{
+      const tr = document.createElement('tr');
+      if(r[0]==='section'){
+        tr.className='section-head';
+        tr.innerHTML = '<td colspan="3">'+r[1]+'</td>';
+      } else {
+        tr.className = r[0]==='total' ? 'total-row' : '';
+        tr.innerHTML = '<td>'+r[1]+'</td><td class="num">'+inr(r[2])+'</td><td class="num">'+inr(r[3])+'</td>';
+      }
+      tbody.appendChild(tr);
+    });
+  }
+
+  function populateMonthYear(){
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const monthSel = $('payMonthSel'), yearSel = $('payYearSel');
+    const today = new Date();
+    months.forEach((name, idx)=>{
+      const opt = document.createElement('option');
+      opt.value = String(idx+1).padStart(2,'0');
+      opt.textContent = name;
+      if(idx === today.getMonth()) opt.selected = true;
+      monthSel.appendChild(opt);
+    });
+    const curYear = today.getFullYear();
+    for(let y = curYear - 1; y <= curYear + 2; y++){
+      const opt = document.createElement('option');
+      opt.value = String(y);
+      opt.textContent = String(y);
+      if(y === curYear) opt.selected = true;
+      yearSel.appendChild(opt);
+    }
+    monthSel.addEventListener('change', recalc);
+    yearSel.addEventListener('change', recalc);
+  }
+
+  const printBtn = $('printBtn');
+  if(printBtn){
+    printBtn.addEventListener('click', function(){
+      try{
+        window.focus();
+        window.print();
+      }catch(e){
+        alert('This browser blocked the print dialog. Open this page directly in a new tab (not inside another app) and use your browser\'s own Print / Save as PDF option (Ctrl/Cmd+P).');
+      }
+    });
+  }
+
+  $('dateStamp').textContent = new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'});
+  populateMonthYear();
+  recalc();
+})();
+</script>
+</body>
+</html>
