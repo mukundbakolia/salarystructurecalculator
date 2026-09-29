@@ -146,7 +146,7 @@
   }
   .comp-row .comp-label{font-size:14.5px;font-weight:500;}
   .comp-row .comp-desc{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
-  .comp-row .comp-input{display:flex;align-items:center;gap:6px;min-width:150px;justify-content:flex-end;}
+  .comp-row .comp-input{display:flex;align-items:center;gap:8px;min-width:150px;justify-content:flex-end;flex-wrap:wrap;}
   .comp-row.disabled-look .comp-label, .comp-row.disabled-look .comp-desc{opacity:.45;}
 
   input[type=number], input[type=text], select{
@@ -275,6 +275,57 @@
   .rh-k{color:var(--ink-soft);}
   .rh-v{font-family:var(--mono);font-weight:500;text-align:right;}
 
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+
+  @media (max-width:640px){
+    .wrap{padding:22px 14px 90px;}
+    h1{font-size:25px;}
+    header p.lede{font-size:13.5px;}
+    .masthead-top{gap:8px;}
+
+    .step-head{padding:14px 16px;gap:10px;}
+    .step-num{font-size:19px;min-width:20px;}
+    .step-head h2{font-size:16.5px;}
+    .step-head .step-sub{font-size:12.5px;}
+    .step-body{padding:16px 16px 20px;}
+
+    .comp-row{grid-template-columns:22px 1fr;row-gap:8px;}
+    .comp-row .comp-input{grid-column:1 / -1;justify-content:flex-start;margin-left:32px;width:calc(100% - 32px);}
+    .comp-row .comp-label{font-size:14px;}
+    .comp-row .comp-desc{font-size:12px;}
+
+    .field-row{grid-template-columns:1fr;row-gap:8px;}
+    .field-row > select, .field-row > input, .field-row > .inline-inputs{justify-self:flex-start;}
+
+    select{width:100%;min-width:0;}
+    input[type=number], input[type=text]{width:120px;}
+    .comp-row .comp-input input[type=number]{width:100px;}
+
+    .big-input-row{gap:10px;}
+    .big-input-row input[type=number]{width:150px;font-size:17px;padding:9px 10px;}
+    .radio-toggle label{padding:7px 11px;font-size:12.5px;}
+
+    .grid-2{gap:14px;}
+    .panel-sub{padding:14px 14px;}
+
+    table.summary{font-size:12.5px;min-width:460px;}
+    table.summary th, table.summary td{padding:7px 6px;}
+
+    .final-net{padding:22px 14px;}
+    .final-net .amount{font-size:28px;}
+
+    .report-header{padding:12px 14px;font-size:12.5px;}
+
+    .btn{width:100%;text-align:center;}
+    .btn-row{flex-direction:column;}
+  }
+
+  @media (max-width:380px){
+    h1{font-size:22px;}
+    .comp-row .comp-input input[type=number]{width:86px;}
+    .final-net .amount{font-size:24px;}
+  }
+
   @media print{
     body{background:#fff;color:#000;}
     .no-print{display:none !important;}
@@ -391,6 +442,17 @@
         </div>
       </div>
 
+      <div class="comp-row" data-comp="pli">
+        <input type="checkbox" id="c_pli">
+        <div>
+          <div class="comp-label">Performance Linked Incentive (PLI)</div>
+          <div class="comp-desc">A flat % of CTC reserved for performance-linked payout — deducted straight off CTC, the same way Employer PF is, and not part of the fixed monthly Gross.</div>
+        </div>
+        <div class="comp-input">
+          <input type="number" id="v_pli" value="10" min="0" max="100" step="0.5" disabled> <span class="unit-suffix">% of CTC</span>
+        </div>
+      </div>
+
       <div class="comp-row" data-comp="statBonus">
         <input type="checkbox" id="c_statBonus">
         <div>
@@ -452,6 +514,7 @@
         <div class="result-line deduct" data-line="gratuity"><span class="k">Less: Gratuity provision</span><span class="v" id="out_gratuity">—</span></div>
         <div class="result-line deduct" data-line="insurance"><span class="k">Less: Insurance premium</span><span class="v" id="out_insurance">—</span></div>
         <div class="result-line deduct" data-line="nps"><span class="k">Less: Employer NPS</span><span class="v" id="out_nps">—</span></div>
+        <div class="result-line deduct" data-line="pli"><span class="k">Less: PLI provision</span><span class="v" id="out_pli">—</span></div>
         <div class="result-line deduct" data-line="statBonus"><span class="k">Less: Statutory bonus</span><span class="v" id="out_statBonus">—</span></div>
         <div class="result-line deduct" data-line="varPay"><span class="k">Less: Variable pay</span><span class="v" id="out_varPay">—</span></div>
         <div class="result-line deduct" data-line="lta"><span class="k">Less: LTA</span><span class="v" id="out_lta">—</span></div>
@@ -516,9 +579,62 @@
       <div id="minWageWarning" class="callout warn" style="display:none;"></div>
       <div id="minWageOk" class="callout ok" style="display:none;"></div>
 
+      <div class="panel-sub" style="margin-top:18px;margin-bottom:4px;">
+        <h3>Additional salary components (optional)</h3>
+        <div class="step-sub" style="margin-bottom:10px;">Each comes out of Special Allowance — enable only the ones this structure actually uses.</div>
+
+        <div class="comp-row" data-comp="bonusAllow">
+          <input type="checkbox" id="c_bonusAllow">
+          <div>
+            <div class="comp-label">Bonus</div>
+            <div class="comp-desc">A distinct monthly-accrued bonus line in Gross — separate from the statutory bonus in Step 1.</div>
+          </div>
+          <div class="comp-input">
+            <div class="radio-toggle" id="mode_bonusAllow_toggle">
+              <input type="radio" name="mode_bonusAllow" id="bonusAllow_fixed" value="fixed" checked><label for="bonusAllow_fixed">₹/mo</label>
+              <input type="radio" name="mode_bonusAllow" id="bonusAllow_pct" value="pct"><label for="bonusAllow_pct">% of Basic</label>
+            </div>
+            <input type="number" id="v_bonusAllow" value="0" min="0" step="100" disabled>
+          </div>
+        </div>
+
+        <div class="comp-row" data-comp="leaveAllow">
+          <input type="checkbox" id="c_leaveAllow">
+          <div>
+            <div class="comp-label">Leave (allowance / encashment provision)</div>
+            <div class="comp-desc">A dedicated leave-related component within Gross.</div>
+          </div>
+          <div class="comp-input">
+            <div class="radio-toggle" id="mode_leaveAllow_toggle">
+              <input type="radio" name="mode_leaveAllow" id="leaveAllow_fixed" value="fixed" checked><label for="leaveAllow_fixed">₹/mo</label>
+              <input type="radio" name="mode_leaveAllow" id="leaveAllow_pct" value="pct"><label for="leaveAllow_pct">% of Basic</label>
+            </div>
+            <input type="number" id="v_leaveAllow" value="0" min="0" step="100" disabled>
+          </div>
+        </div>
+
+        <div class="comp-row" data-comp="convAllow">
+          <input type="checkbox" id="c_convAllow">
+          <div>
+            <div class="comp-label">Conveyance</div>
+            <div class="comp-desc">Fixed travel/conveyance allowance, shown as its own line in Gross.</div>
+          </div>
+          <div class="comp-input">
+            <div class="radio-toggle" id="mode_convAllow_toggle">
+              <input type="radio" name="mode_convAllow" id="convAllow_fixed" value="fixed" checked><label for="convAllow_fixed">₹/mo</label>
+              <input type="radio" name="mode_convAllow" id="convAllow_pct" value="pct"><label for="convAllow_pct">% of Basic</label>
+            </div>
+            <input type="number" id="v_convAllow" value="0" min="0" step="100" disabled>
+          </div>
+        </div>
+      </div>
+
       <div style="margin-top:16px;">
         <div class="result-line"><span class="k">Basic (monthly)</span><span class="v" id="out_basic">—</span></div>
         <div class="result-line"><span class="k">HRA (monthly)</span><span class="v" id="out_hra">—</span></div>
+        <div class="result-line" data-line="bonusAllow"><span class="k">Bonus (monthly)</span><span class="v" id="out_bonusAllow">—</span></div>
+        <div class="result-line" data-line="leaveAllow"><span class="k">Leave (monthly)</span><span class="v" id="out_leaveAllow">—</span></div>
+        <div class="result-line" data-line="convAllow"><span class="k">Conveyance (monthly)</span><span class="v" id="out_convAllow">—</span></div>
         <div class="result-line"><span class="k">Special Allowance (monthly, balancing figure)</span><span class="v" id="out_sa">—</span></div>
         <div class="result-line total"><span class="k">Fixed Gross (monthly)</span><span class="v" id="out_grossMonthly2">—</span></div>
       </div>
@@ -654,6 +770,9 @@
           <h3>Prorated Gross components</h3>
           <div class="result-line"><span class="k">Basic</span><span class="v" id="out_pBasic">—</span></div>
           <div class="result-line"><span class="k">HRA</span><span class="v" id="out_pHRA">—</span></div>
+          <div class="result-line" data-line="p_bonusAllow"><span class="k">Bonus</span><span class="v" id="out_pBonusAllow">—</span></div>
+          <div class="result-line" data-line="p_leaveAllow"><span class="k">Leave</span><span class="v" id="out_pLeaveAllow">—</span></div>
+          <div class="result-line" data-line="p_convAllow"><span class="k">Conveyance</span><span class="v" id="out_pConvAllow">—</span></div>
           <div class="result-line"><span class="k">Special Allowance</span><span class="v" id="out_pSA">—</span></div>
           <div class="result-line total"><span class="k">Gross earned</span><span class="v" id="out_pGross">—</span></div>
         </div>
@@ -705,12 +824,14 @@
         <div class="rh-row"><span class="rh-k">Generated on</span><span class="rh-v" id="rh_date">—</span></div>
       </div>
 
-      <table class="summary" id="summaryTable">
-        <thead>
-          <tr><th>Component</th><th class="num">Monthly (₹)</th><th class="num">Annual (₹)</th></tr>
-        </thead>
-        <tbody id="summaryBody"></tbody>
-      </table>
+      <div class="table-scroll">
+        <table class="summary" id="summaryTable">
+          <thead>
+            <tr><th>Component</th><th class="num">Monthly (₹)</th><th class="num">Annual (₹)</th></tr>
+          </thead>
+          <tbody id="summaryBody"></tbody>
+        </table>
+      </div>
       <div class="btn-row no-print">
         <button class="btn primary" id="printBtn" type="button">Print / save as PDF</button>
       </div>
@@ -718,7 +839,7 @@
   </section>
 
   <footer>
-    <p>Statutory rates used: EPF 12% (employer + employee, PF wage capped at ₹25,000 by default), ESIC 3.25% employer / 0.75% employee (wage ceiling ₹21,000/month), gratuity 4.81% of Basic, statutory bonus 8.33% (bonus-wage capped ₹7,000). Basic is always the greater of (Basic % × Gross) or the UP minimum wage for the selected category. Professional Tax and Labour Welfare Fund are not levied in Uttar Pradesh and are off by default.</p>
+    <p>Statutory rates used: EPF 12% (employer + employee, PF wage capped at ₹25,000 by default), ESIC 3.25% employer / 0.75% employee (wage ceiling ₹21,000/month), gratuity 4.81% of Basic, statutory bonus 8.33% (bonus-wage capped ₹7,000). Basic is always the greater of (Basic % × Gross) or the UP minimum wage for the selected category. PLI, Bonus, Leave and Conveyance are all optional and off by default — enable only what this offer actually uses. Professional Tax and Labour Welfare Fund are not levied in Uttar Pradesh and are off by default.</p>
     <p>This is a planning tool, not a compliance or tax filing system — verify current thresholds with the latest EPFO/ESIC circulars and the UP Labour Department's notification before issuing an offer.</p>
   </footer>
 
@@ -790,6 +911,7 @@
       gratuity: $('c_gratuity').checked,
       insurance: $('c_insurance').checked,
       nps: $('c_nps').checked,
+      pli: $('c_pli').checked,
       statBonus: $('c_statBonus').checked,
       varPay: $('c_varPay').checked,
       lta: $('c_lta').checked
@@ -797,6 +919,7 @@
     const val = {
       insurance: parseFloat($('v_insurance').value) || 0,
       nps: (parseFloat($('v_nps').value) || 0) / 100,
+      pli: (parseFloat($('v_pli').value) || 0) / 100,
       varPay: (parseFloat($('v_varPay').value) || 0) / 100,
       lta: parseFloat($('v_lta').value) || 0
     };
@@ -814,6 +937,7 @@
       c.gratuity = on.gratuity ? basicM*12*0.0481 : 0;
       c.insurance = on.insurance ? val.insurance : 0;
       c.nps = on.nps ? basicM*12*val.nps : 0;
+      c.pli = on.pli ? ctcAnnual*val.pli : 0;
       const bonusWage = Math.min(basicM, 7000);
       c.statBonus = on.statBonus ? bonusWage*12*0.0833 : 0;
       c.varPay = on.varPay ? basicM*12*val.varPay : 0;
@@ -859,7 +983,19 @@
     }
     const grossAnnual = grossMonthly*12;
     let hraMonthly = basicMonthly * hraPct;
-    let saMonthly = grossMonthly - basicMonthly - hraMonthly;
+
+    function allowanceInfo(prefix, basicM){
+      const enabled = $('c_'+prefix).checked;
+      const mode = document.querySelector('input[name=mode_'+prefix+']:checked').value;
+      const v = parseFloat($('v_'+prefix).value) || 0;
+      const amount = !enabled ? 0 : (mode === 'pct' ? basicM*(v/100) : v);
+      return {enabled, amount};
+    }
+    const bonusAllow = allowanceInfo('bonusAllow', basicMonthly);
+    const leaveAllow = allowanceInfo('leaveAllow', basicMonthly);
+    const convAllow = allowanceInfo('convAllow', basicMonthly);
+
+    let saMonthly = grossMonthly - basicMonthly - hraMonthly - bonusAllow.amount - leaveAllow.amount - convAllow.amount;
 
     const minWarn = $('minWageWarning'), minOk = $('minWageOk');
     if(infeasible){
@@ -882,7 +1018,7 @@
     const saWarn = $('saWarning');
     if(saMonthly < 0 && !infeasible){
       saWarn.style.display='block';
-      saWarn.innerHTML = 'Special Allowance has gone negative — Basic % + HRA % together exceed 100% of Gross. Reduce Basic % or HRA %.';
+      saWarn.innerHTML = 'Special Allowance has gone negative — Basic %, HRA %, and the additional components below together exceed Gross. Reduce one of them.';
     } else {
       saWarn.style.display='none';
     }
@@ -895,6 +1031,7 @@
     $('out_gratuity').textContent = '- ' + inr(costs.gratuity);
     $('out_insurance').textContent = '- ' + inr(costs.insurance);
     $('out_nps').textContent = '- ' + inr(costs.nps);
+    $('out_pli').textContent = '- ' + inr(costs.pli);
     $('out_statBonus').textContent = '- ' + inr(costs.statBonus);
     $('out_varPay').textContent = '- ' + inr(costs.varPay);
     $('out_lta').textContent = '- ' + inr(costs.lta);
@@ -911,6 +1048,12 @@
     $('out_basic').textContent = inr(basicMonthly);
     $('out_hra').textContent = inr(hraMonthly);
     $('out_sa').textContent = inr(saMonthly);
+    [['bonusAllow',bonusAllow],['leaveAllow',leaveAllow],['convAllow',convAllow]].forEach(([key,info])=>{
+      document.querySelectorAll('.result-line[data-line="'+key+'"]').forEach(line=>{
+        line.style.display = info.enabled ? 'flex' : 'none';
+      });
+      $('out_'+key).textContent = inr(info.amount);
+    });
 
     // ---------- STEP 4: employee deductions on full month ----------
     const pfWageMonthlyFinal = capPF ? Math.min(basicMonthly, PF_CEILING) : basicMonthly;
@@ -962,6 +1105,12 @@
     $('out_lopDays').textContent = lopDays.toFixed(lopDays%1===0?0:1) + ' days';
     $('out_pBasic').textContent = inr(pBasic);
     $('out_pHRA').textContent = inr(pHRA);
+    [['bonusAllow',bonusAllow,'out_pBonusAllow','p_bonusAllow'],['leaveAllow',leaveAllow,'out_pLeaveAllow','p_leaveAllow'],['convAllow',convAllow,'out_pConvAllow','p_convAllow']].forEach(([key,info,outId,lineKey])=>{
+      document.querySelectorAll('.result-line[data-line="'+lineKey+'"]').forEach(line=>{
+        line.style.display = info.enabled ? 'flex' : 'none';
+      });
+      $(outId).textContent = inr(info.amount*frac);
+    });
     $('out_pSA').textContent = inr(pSA);
     $('out_pGross').textContent = inr(pGross);
     $('out_pEPF').textContent = '- ' + inr(pEPF);
@@ -979,6 +1128,9 @@
     rows.push(['section','Earnings — monthly Gross','','']);
     rows.push(['row','Basic', basicMonthly, basicMonthly*12]);
     rows.push(['row','HRA', hraMonthly, hraMonthly*12]);
+    if(bonusAllow.enabled) rows.push(['row','Bonus', bonusAllow.amount, bonusAllow.amount*12]);
+    if(leaveAllow.enabled) rows.push(['row','Leave', leaveAllow.amount, leaveAllow.amount*12]);
+    if(convAllow.enabled) rows.push(['row','Conveyance', convAllow.amount, convAllow.amount*12]);
     rows.push(['row','Special Allowance', saMonthly, saMonthly*12]);
     rows.push(['total','Gross (A)', grossMonthly, grossAnnual]);
 
@@ -999,6 +1151,7 @@
     if(on.gratuity) rows.push(['row','Gratuity provision', costs.gratuity/12, costs.gratuity]);
     if(on.insurance) rows.push(['row','Insurance premium', costs.insurance/12, costs.insurance]);
     if(on.nps) rows.push(['row','Employer NPS', costs.nps/12, costs.nps]);
+    if(on.pli) rows.push(['row','PLI provision', costs.pli/12, costs.pli]);
     if(on.statBonus) rows.push(['row','Statutory bonus', costs.statBonus/12, costs.statBonus]);
     if(on.varPay) rows.push(['row','Variable pay (at target)', costs.varPay/12, costs.varPay]);
     if(on.lta) rows.push(['row','LTA', costs.lta/12, costs.lta]);
