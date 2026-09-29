@@ -9,18 +9,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#16213A;
-    --ink-soft:#4B5A73;
-    --paper:#EEF1EC;
+    --ink:#101828;
+    --ink-soft:#5B6472;
+    --paper:#FFFFFF;
     --panel:#FFFFFF;
-    --line:#D7DBD1;
-    --line-soft:#E6E9E1;
-    --brass:#9C7324;
-    --brass-soft:#EFE6D2;
-    --teal:#2C6B4C;
-    --teal-soft:#E4EFE8;
-    --rust:#A23A2E;
-    --rust-soft:#F6E6E3;
+    --line:#E4E7EC;
+    --line-soft:#EEF0F3;
+    --brass:#4F46E5;
+    --brass-soft:#EEF2FF;
+    --teal:#0D9488;
+    --teal-soft:#ECFDF5;
+    --rust:#E11D48;
+    --rust-soft:#FFF1F2;
+    --amber:#D97706;
+    --amber-soft:#FFFBEB;
+    --violet:#7C3AED;
+    --violet-soft:#F5F3FF;
+    --blue:#2563EB;
+    --blue-soft:#EFF6FF;
     --serif:'Lora', Georgia, serif;
     --sans:'IBM Plex Sans', -apple-system, Segoe UI, sans-serif;
     --mono:'IBM Plex Mono', 'SFMono-Regular', Menlo, monospace;
@@ -39,28 +45,41 @@
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --paper:#12161F;
-      --panel:#1B212D;
-      --ink:#E9EAE4;
+      --paper:#0F1117;
+      --panel:#181B24;
+      --ink:#F1F2F6;
       --ink-soft:#AEB6C2;
       --line:#333B48;
-      --line-soft:#2A303B;
-      --brass-soft:#3A3220;
-      --teal-soft:#1C2E24;
-      --rust-soft:#3A2320;
+      --line-soft:#262A34;
+      --brass-soft:#231F45;
+      --teal-soft:#0E2C27;
+      --rust-soft:#3A1620;
+      --amber-soft:#332405;
+      --violet-soft:#241A3D;
+      --blue-soft:#122036;
     }
   }
   :root[data-theme="dark"]{
-    --paper:#12161F;
-    --panel:#1B212D;
-    --ink:#E9EAE4;
+    --paper:#0F1117;
+    --panel:#181B24;
+    --ink:#F1F2F6;
     --ink-soft:#AEB6C2;
     --line:#333B48;
-    --line-soft:#2A303B;
-    --brass-soft:#3A3220;
-    --teal-soft:#1C2E24;
-    --rust-soft:#3A2320;
+    --line-soft:#262A34;
+    --brass-soft:#231F45;
+    --teal-soft:#0E2C27;
+    --rust-soft:#3A1620;
+    --amber-soft:#332405;
+    --violet-soft:#241A3D;
+    --blue-soft:#122036;
   }
+
+  section.step:nth-of-type(1){--accent:#4F46E5;--accent-soft:#EEF2FF;}
+  section.step:nth-of-type(2){--accent:#0D9488;--accent-soft:#ECFDF5;}
+  section.step:nth-of-type(3){--accent:#D97706;--accent-soft:#FFFBEB;}
+  section.step:nth-of-type(4){--accent:#E11D48;--accent-soft:#FFF1F2;}
+  section.step:nth-of-type(5){--accent:#7C3AED;--accent-soft:#F5F3FF;}
+  section.step:nth-of-type(6){--accent:#2563EB;--accent-soft:#EFF6FF;}
 
   .wrap{max-width:880px;margin:0 auto;padding:40px 22px 100px;}
 
@@ -70,14 +89,17 @@
     margin-bottom:34px;
   }
   .masthead-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;}
-  .masthead-top .tag{font-family:var(--mono);font-size:12.5px;color:var(--brass);letter-spacing:.02em;}
+  .masthead-top .tag{font-family:var(--mono);font-size:12.5px;color:var(--brass);letter-spacing:.02em;font-weight:600;}
   h1{
     font-family:var(--serif);
     font-weight:600;
     font-size:34px;
     line-height:1.15;
     margin:6px 0 8px;
-    color:var(--ink);
+    background:linear-gradient(100deg, var(--ink) 55%, var(--brass));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
   }
   header p.lede{
     color:var(--ink-soft);
@@ -89,9 +111,11 @@
   section.step{
     background:var(--panel);
     border:1px solid var(--line);
-    border-radius:3px;
+    border-top:3px solid var(--accent, var(--brass));
+    border-radius:10px;
     margin-bottom:22px;
     overflow:hidden;
+    box-shadow:0 1px 2px rgba(16,24,40,.04), 0 4px 16px rgba(16,24,40,.05);
   }
   .step-head{
     display:flex;
@@ -99,12 +123,14 @@
     gap:14px;
     padding:18px 24px;
     border-bottom:1px solid var(--line-soft);
+    background:var(--accent-soft, var(--paper));
   }
   .step-num{
     font-family:var(--serif);
     font-style:italic;
+    font-weight:600;
     font-size:22px;
-    color:var(--brass);
+    color:var(--accent, var(--brass));
     min-width:26px;
   }
   .step-head h2{
@@ -146,6 +172,8 @@
   }
   .comp-row .comp-label{font-size:14.5px;font-weight:500;}
   .comp-row .comp-desc{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+  .allow-mode-row{display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;}
+  .allow-mode-row select{min-width:0;width:auto;font-size:13px;padding:6px 8px;}
   .comp-row .comp-input{display:flex;align-items:center;gap:8px;min-width:150px;justify-content:flex-end;flex-wrap:wrap;}
   .comp-row.disabled-look .comp-label, .comp-row.disabled-look .comp-desc{opacity:.45;}
 
@@ -154,8 +182,8 @@
     font-size:14.5px;
     padding:7px 10px;
     border:1px solid var(--line);
-    border-radius:2px;
-    background:var(--paper);
+    border-radius:6px;
+    background:#F9FAFB;
     color:var(--ink);
     width:130px;
     text-align:right;
@@ -167,14 +195,14 @@
   .unit-suffix{font-family:var(--mono);font-size:13px;color:var(--ink-soft);}
   .inline-inputs{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
 
-  .radio-toggle{display:flex;border:1px solid var(--line);border-radius:2px;overflow:hidden;width:fit-content;}
+  .radio-toggle{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;width:fit-content;}
   .radio-toggle label{
     font-size:13px;padding:7px 14px;cursor:pointer;background:var(--panel);color:var(--ink-soft);
-    border-right:1px solid var(--line);
+    border-right:1px solid var(--line);transition:all .15s ease;
   }
   .radio-toggle label:last-child{border-right:none;}
   .radio-toggle input{display:none;}
-  .radio-toggle input:checked + label{background:var(--ink);color:var(--panel);}
+  .radio-toggle input:checked + label{background:linear-gradient(120deg, var(--brass), var(--violet));color:#fff;}
   .radio-toggle label{margin:0;}
 
   .big-input-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px;}
@@ -198,7 +226,7 @@
     padding:12px 16px;
     font-size:13px;
     color:var(--ink);
-    border-radius:0 2px 2px 0;
+    border-radius:0 8px 8px 0;
     margin:14px 0;
   }
   .callout.warn{border-left-color:var(--rust);background:var(--rust-soft);}
@@ -209,9 +237,9 @@
   @media (max-width:620px){.grid-2{grid-template-columns:1fr;} .report-header{grid-template-columns:1fr;}}
 
   .panel-sub{
-    background:var(--paper);
+    background:#F9FAFB;
     border:1px solid var(--line-soft);
-    border-radius:2px;
+    border-radius:8px;
     padding:16px 18px;
   }
   .panel-sub h3{
@@ -235,24 +263,26 @@
 
   .final-net{
     text-align:center;
-    padding:28px 20px;
-    background:var(--ink);
-    color:var(--paper);
-    border-radius:3px;
+    padding:30px 20px;
+    background:linear-gradient(135deg, #1E1B4B, #4F46E5 55%, #7C3AED);
+    color:#fff;
+    border-radius:12px;
     margin:20px 0;
+    box-shadow:0 8px 24px rgba(79,70,229,.25);
   }
-  .final-net .label{font-size:12.5px;letter-spacing:.02em;color:#B9C2CE;margin-bottom:6px;}
-  .final-net .amount{font-family:var(--serif);font-weight:700;font-size:38px;color:#F2C879;}
-  .final-net .sub{font-size:12.5px;color:#B9C2CE;margin-top:6px;}
+  .final-net .label{font-size:12.5px;letter-spacing:.04em;color:#C7D2FE;margin-bottom:6px;text-transform:uppercase;}
+  .final-net .amount{font-family:var(--serif);font-weight:700;font-size:40px;color:#FDE68A;}
+  .final-net .sub{font-size:12.5px;color:#DDD6FE;margin-top:6px;}
 
   .btn{
     font-family:var(--sans);font-size:13.5px;font-weight:500;
-    padding:9px 16px;border:1px solid var(--ink);border-radius:2px;
+    padding:10px 18px;border:1.5px solid var(--ink);border-radius:8px;
     background:var(--panel);color:var(--ink);cursor:pointer;
+    transition:all .15s ease;
   }
   .btn:hover{background:var(--ink);color:var(--panel);}
-  .btn.primary{background:var(--brass);border-color:var(--brass);color:#fff;}
-  .btn.primary:hover{background:#7E5C19;border-color:#7E5C19;}
+  .btn.primary{background:linear-gradient(120deg, var(--brass), var(--violet));border-color:transparent;color:#fff;box-shadow:0 2px 10px rgba(79,70,229,.3);}
+  .btn.primary:hover{filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 4px 14px rgba(79,70,229,.4);}
   .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
 
   footer{
@@ -266,7 +296,8 @@
     grid-template-columns:1fr 1fr;
     gap:4px 24px;
     border:1px solid var(--line);
-    border-radius:2px;
+    background:#F9FAFB;
+    border-radius:8px;
     padding:14px 18px;
     margin-bottom:18px;
     font-size:13px;
@@ -333,10 +364,10 @@
     header.masthead{border-bottom:1.5px solid #000;padding-bottom:10px;margin-bottom:18px;}
     header.masthead .masthead-top{display:none;}
     header.masthead p.lede{display:none;}
-    h1{font-size:22px;}
-    section.step{display:none;border:none;}
-    section#reportStep{display:block;break-inside:avoid;border:none;margin:0;}
-    #reportStep .step-head{border-bottom:1.5px solid #000;padding:0 0 10px;margin-bottom:14px;}
+    h1{font-size:22px;background:none;-webkit-background-clip:initial;background-clip:initial;color:#000;}
+    section.step{display:none;border:none;box-shadow:none;}
+    section#reportStep{display:block;break-inside:avoid;border:none;margin:0;box-shadow:none;}
+    #reportStep .step-head{border-bottom:1.5px solid #000;padding:0 0 10px;margin-bottom:14px;background:none;}
     #reportStep .step-sub{display:none;}
     .no-print-inputs{display:none !important;}
     .report-header{display:grid;background:#fff;border:1px solid #000;}
@@ -675,7 +706,21 @@
         <input type="checkbox" id="c_dPT">
         <div>
           <div class="comp-label">Professional Tax</div>
-          <div class="comp-desc"><strong>Not applicable in Uttar Pradesh</strong> — UP does not levy Professional Tax. Enable and enter an amount only if this employee is on a state payroll that does (e.g. cross-posted).</div>
+          <div class="comp-desc"><strong>Not applicable in Uttar Pradesh</strong> — UP does not levy Professional Tax. Enable only for an employee on a state payroll that does. "Standard" applies that state's slab to the Gross above; "Custom" lets you type the exact figure.</div>
+          <div class="allow-mode-row">
+            <div class="radio-toggle" id="mode_PT_toggle">
+              <input type="radio" name="mode_PT" id="PT_standard" value="standard" checked><label for="PT_standard">Standard</label>
+              <input type="radio" name="mode_PT" id="PT_custom" value="custom"><label for="PT_custom">Custom</label>
+            </div>
+            <select id="state_PT" disabled>
+              <option value="UP">Uttar Pradesh — not applicable</option>
+              <option value="MH" selected>Maharashtra</option>
+              <option value="KA">Karnataka</option>
+              <option value="AP">Andhra Pradesh</option>
+              <option value="TS">Telangana</option>
+              <option value="OTHER">Other PT state (≈₹200/mo indicative)</option>
+            </select>
+          </div>
         </div>
         <div class="comp-input">
           <input type="number" id="v_PT" value="0" min="0" step="50" disabled> <span class="unit-suffix">₹/mo</span>
@@ -686,10 +731,27 @@
         <input type="checkbox" id="c_dLWF">
         <div>
           <div class="comp-label">Labour Welfare Fund</div>
-          <div class="comp-desc"><strong>Not applicable in Uttar Pradesh</strong> — UP has no LWF Act. Leave off unless the establishment is registered in a state that does.</div>
+          <div class="comp-desc"><strong>Not applicable in Uttar Pradesh</strong> — UP has no LWF Act. "Standard" uses a monthly-equivalent of that state's small fixed contribution (actual deduction is often lump-sum, half-yearly or annual); "Custom" lets you type the exact figure.</div>
+          <div class="allow-mode-row">
+            <div class="radio-toggle" id="mode_LWF_toggle">
+              <input type="radio" name="mode_LWF" id="LWF_standard" value="standard" checked><label for="LWF_standard">Standard</label>
+              <input type="radio" name="mode_LWF" id="LWF_custom" value="custom"><label for="LWF_custom">Custom</label>
+            </div>
+            <select id="state_LWF" disabled>
+              <option value="UP">Uttar Pradesh — not applicable</option>
+              <option value="MH" selected>Maharashtra</option>
+              <option value="KA">Karnataka</option>
+              <option value="TN">Tamil Nadu</option>
+              <option value="GJ">Gujarat</option>
+              <option value="AP">Andhra Pradesh</option>
+              <option value="KL">Kerala</option>
+              <option value="WB">West Bengal</option>
+              <option value="DL">Delhi</option>
+            </select>
+          </div>
         </div>
         <div class="comp-input">
-          <input type="number" id="v_LWF" value="0" min="0" step="5" disabled> <span class="unit-suffix">₹/mo</span>
+          <input type="number" id="v_LWF" value="0" min="0" step="1" disabled> <span class="unit-suffix">₹/mo</span>
         </div>
       </div>
 
@@ -855,6 +917,33 @@
     return (neg?'-':'') + '₹' + s;
   };
 
+  // Indicative state PT slabs (monthly ₹, applied to Gross) — verify against the current state notification.
+  function ptForState(stateKey, grossM){
+    switch(stateKey){
+      case 'MH': if(grossM<=7500) return 0; if(grossM<=10000) return 175; return 200;
+      case 'KA': return grossM<=25000 ? 0 : 200;
+      case 'AP': case 'TS': if(grossM<=15000) return 0; if(grossM<=20000) return 150; return 200;
+      case 'UP': return 0;
+      default: return grossM<=15000 ? 0 : 200; // generic/other PT state, indicative only
+    }
+  }
+  // Indicative LWF employee contribution, converted to a monthly equivalent from each state's actual half-yearly/annual amount.
+  const LWF_MONTHLY = {UP:0, MH:25/6, KA:50/12, TN:20/12, GJ:1, AP:30/12, KL:4, WB:0.5, DL:0.75/6};
+
+  function standardOrCustomAmount(prefix, computeFn){
+    const cb = $('c_d'+prefix);
+    if(!cb.checked) return 0;
+    const modeEl = document.querySelector('input[name=mode_'+prefix+']:checked');
+    const mode = modeEl ? modeEl.value : 'standard';
+    const numEl = $('v_'+prefix);
+    if(mode === 'custom'){
+      return parseFloat(numEl.value) || 0;
+    }
+    const amt = computeFn($('state_'+prefix).value);
+    numEl.value = Math.round(amt*100)/100;
+    return amt;
+  }
+
   // ---- wire up conditional inputs (checkbox enables its own number input) ----
   document.querySelectorAll('.comp-row[data-comp]').forEach(row=>{
     const cb = row.querySelector('input[type=checkbox]');
@@ -867,7 +956,7 @@
     if(num) num.addEventListener('input', recalc);
     sync();
   });
-  ['c_dPT','c_dLWF','c_dTDS','c_dOther'].forEach(id=>{
+  ['c_dTDS','c_dOther'].forEach(id=>{
     const cb = $(id);
     const num = cb.closest('.comp-row').querySelector('input[type=number]');
     function sync(){ num.disabled = !cb.checked; }
@@ -875,6 +964,28 @@
     num.addEventListener('input', recalc);
     sync();
   });
+
+  function wireStandardCustom(prefix){
+    const cb = $('c_d'+prefix);
+    const modeRadios = document.querySelectorAll('input[name=mode_'+prefix+']');
+    const stateSel = $('state_'+prefix);
+    const num = $('v_'+prefix);
+    function sync(){
+      const modeEl = document.querySelector('input[name=mode_'+prefix+']:checked');
+      const mode = modeEl ? modeEl.value : 'standard';
+      const enabled = cb.checked;
+      stateSel.disabled = !enabled || mode !== 'standard';
+      num.disabled = !enabled || mode !== 'custom';
+      modeRadios.forEach(r=>{ r.disabled = !enabled; });
+    }
+    cb.addEventListener('change', ()=>{ sync(); recalc(); });
+    modeRadios.forEach(r=>r.addEventListener('change', ()=>{ sync(); recalc(); }));
+    stateSel.addEventListener('change', recalc);
+    num.addEventListener('input', recalc);
+    sync();
+  }
+  wireStandardCustom('PT');
+  wireStandardCustom('LWF');
 
   document.querySelectorAll('input, select').forEach(el=>{
     el.addEventListener('input', recalc);
@@ -1060,8 +1171,8 @@
     const dEPF = $('c_dEPF').checked ? pfWageMonthlyFinal*0.12 : 0;
     const dESICapplies = grossMonthly <= 21000 && grossMonthly > 0;
     const dESIC = ($('c_dESIC').checked && dESICapplies) ? grossMonthly*0.0075 : 0;
-    const dPT = $('c_dPT').checked ? (parseFloat($('v_PT').value)||0) : 0;
-    const dLWF = $('c_dLWF').checked ? (parseFloat($('v_LWF').value)||0) : 0;
+    const dPT = standardOrCustomAmount('PT', (stateKey)=>ptForState(stateKey, grossMonthly));
+    const dLWF = standardOrCustomAmount('LWF', (stateKey)=>LWF_MONTHLY[stateKey] || 0);
     const dTDS = $('c_dTDS').checked ? (parseFloat($('v_TDS').value)||0) : 0;
     const dOther = $('c_dOther').checked ? (parseFloat($('v_other').value)||0) : 0;
     const totalDeductFull = dEPF+dESIC+dPT+dLWF+dTDS+dOther;
